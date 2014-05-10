@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="white">#fff</color>
+	<color name="cream">#eee</color>
+	<color name="white_2">#222</color>
+	<color name="white_3">#333</color>
+	<color name="white_4">#444</color>
+	<color name="white_5">#555</color>
+	<color name="white_6">#666</color>
+	<color name="white_7">#777</color>
+	<color name="white_8">#888</color>
+	<color name="white_9">#999</color>
+	<color name="white_c">#ccc</color>
+	<color name="white_d">#ddd</color>
+	<color name="light_blue">#3276b1</color>
+</resources>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/cream">
+    <LinearLayout android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+        
+	  	<LinearLayout
+	  	    android:id="@+id/startTime"
+	  	    android:layout_width="fill_parent"
+	  	    android:layout_height="wrap_content"
+	  	    android:orientation="vertical"
+	  	    android:gravity="center_vertical">
+
+	  	    <TextView
+	  	        android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:gravity="center_vertical"
+	  	        android:height="35dp"
+	  	        android:text="@string/start_time"
+	  	        android:paddingLeft="10dp"/>
+
+	  	    <TextView android:id="@+id/nowTime"
+	  	        android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:gravity="center_vertical"
+	  	        android:height="15dp"
+	  	        android:paddingLeft="10dp"
+	  	        android:textSize="12sp"
+	  	        android:textColor="@color/white_7"/>
+	  	</LinearLayout>
+		
+	  	<!-- 分割线 -->
+	  	<TextView android:background="@color/cream"
+	  	    android:layout_width="fill_parent"
+	  	    android:height="1dp"
+	  	    android:layout_height="wrap_content"/>
+	  	
+	  	<LinearLayout android:id="@+id/endTime"
+	  	    android:layout_width="fill_parent"
+	  	    android:layout_height="wrap_content"
+	  	    android:orientation="vertical">
+	  	    <TextView android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:text="@string/end_time"
+	  	        android:height="35dp"
+	  	        android:gravity="center_vertical"
+	  	        android:paddingLeft="10dp"/>
+	  	    <TextView android:id="@+id/defaultEndTime"
+	  	        android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:gravity="center_vertical"
+	  	        android:height="15dp"
+	  	        android:paddingLeft="10dp"
+	  	        android:textSize="12sp"
+	  	        android:textColor="@color/white_7"/>
+	  	</LinearLayout>
+	  	
+	  	<!-- 分割线 -->
+	  	<TextView android:background="@color/cream"
+	  	    android:layout_width="fill_parent"
+	  	    android:height="1dp"
+	  	    android:layout_height="wrap_content"/>
+	  	
+		<LinearLayout android:id="@+id/repeat"
+	  	    android:layout_width="fill_parent"
+	  	    android:layout_height="wrap_content"
+	  	    android:orientation="vertical">
+	  	    
+	  	    <TextView android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:text="@string/day_repeat"
+	  	        android:height="35dp"
+	  	        android:paddingLeft="10dp"
+	  	        android:gravity="center_vertical"/>
+	  	    <TextView android:id="@+id/repeatTip"
+	  	        android:layout_width="fill_parent"
+	  	        android:layout_height="wrap_content"
+	  	        android:gravity="center_vertical"
+	  	        android:height="15dp"
+	  	        android:paddingLeft="10dp"
+	  	        android:textSize="12sp"
+	  	        android:textColor="@color/white_7"/>
+	  	</LinearLayout>
+	  	<!-- 分割线 -->
+	  	<TextView android:background="@color/cream"
+	  	    android:layout_width="fill_parent"
+	  	    android:height="1dp"
+	  	    android:layout_height="wrap_content"/>
+	  	
+	    <LinearLayout android:layout_width="fill_parent"
+	  	    android:layout_height="50dp"
+	  	    android:orientation="horizontal">
+	  	    	  	    
+	        <TextView android:text="@string/mute"
+	            android:layout_height="fill_parent"
+	            android:layout_width="wrap_content"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginRight="50dp"
+	            android:layout_gravity="left"
+	            android:gravity="center_vertical"/>
+			<RelativeLayout android:layout_width="fill_parent"
+			    android:layout_height="fill_parent">
+		        <ToggleButton android:id="@+id/toggle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="35dp"
+		            android:textOff="@string/off"
+		            android:textOn="@string/on"
+		            android:textColor="@color/white"
+		            android:layout_alignParentRight="true"
+		            android:layout_alignParentBottom="true"
+		            android:layout_marginBottom="10dp"
+		            android:gravity="center_vertical|center_horizontal"
+		            />
+			</RelativeLayout>
+	  	</LinearLayout>
+		    
+	  	
+  	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:height="30dp"
+            android:text="@string/btn_save"
+            android:textColor="@color/white_5" />
+
+        <Button
+            android:id="@+id/btnCancer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:height="30dp"
+            android:text="@string/btn_cancer"
+            android:textColor="@color/white_5" />
+    </LinearLayout>
+
+</LinearLayout>
