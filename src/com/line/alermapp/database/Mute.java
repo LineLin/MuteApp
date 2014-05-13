@@ -2,16 +2,23 @@ package com.line.alermapp.database;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Mute implements Parcelable{
+public class Mute implements Parcelable,Cloneable{
+	
+	public static final int FLAG_CONVER = 1;
+	
+	public static final int FLAG_NORMAL = 0;
 	
 	private static final String[] DAYS = new String[]{"星期一","星期二","星期三",
 		"星期四","星期五","星期六","星期日"};
 	
+	private String id;
+
 	private int startHour;
 	
 	private int startMinute;
@@ -22,11 +29,7 @@ public class Mute implements Parcelable{
 	
 	private boolean[] repeatDays;
 	
-	private boolean repeat;
-	
 	private boolean mute;
-	
-	private String repeatDaysDesc;
 	
 	public  static final Parcelable.Creator<Mute> CREATOR = new Parcelable.Creator<Mute>() {
 
@@ -46,23 +49,37 @@ public class Mute implements Parcelable{
 	}
 	
 	public Mute(Parcel source){
+		this.id = source.readString();
 		this.startHour = source.readInt();
 		this.startMinute = source.readInt();
 		this.endHour = source.readInt();
 		this.endMinute = source.readInt();
 		this.repeatDays = new boolean[7];
 		source.readBooleanArray(this.repeatDays);
-		source.readBooleanArray(new boolean[]{this.mute});
+		boolean[]  temp = new boolean[1];
+//		source.readBooleanArray(new boolean[]{this.mute});
+		source.readBooleanArray(temp);
+		this.mute = temp[0];
+		
+	}
+	
+	private Mute(String id,int startHour,int startMinute,int endHour,int endMinute
+			,boolean[] repeatDays,boolean mute){
+		this(startHour,startMinute,endHour,endMinute,repeatDays,mute);
+		this.id = id;
 	}
 	
 	public Mute(int startHour,int startMinute,int endHour,int endMinute
-			,boolean[] repeatDays ,boolean mute){
+			,boolean[] repeatDays,boolean mute){
+		this.id = UUID.randomUUID().toString().replace("-","");
 		this.startHour = startHour;
 		this.startMinute = startMinute;
 		this.endHour = endHour;
 		this.endMinute = endMinute;
+		this.repeatDays = new boolean[7];
 		setRepeatDays(repeatDays);
 		this.mute = mute;
+//		System.out.println("mute : " + mute + "         ");
 	}
 	
 	public static String[] getDays() {
@@ -78,17 +95,18 @@ public class Mute implements Parcelable{
 		List<Mute> mutes = new ArrayList<Mute>();
 		
 		while(cursor.moveToNext()){
+			String id = cursor.getString(cursor.getColumnIndex("id"));
 			int startHour = cursor.getInt(cursor.getColumnIndex("start_hour"));
 			int startMinute = cursor.getInt(cursor.getColumnIndex("start_minute"));
 			int endHour = cursor.getInt(cursor.getColumnIndex("end_hour"));
 			int endMinute = cursor.getInt(cursor.getColumnIndex("end_minute"));
 			boolean mute = Boolean.valueOf(cursor.getString(cursor.getColumnIndex("mute")));
 			String repeatDays = cursor.getString(cursor.getColumnIndex("repeat_days"));
-			Mute obj = new Mute(startHour,startMinute,endHour,endMinute,
-					stringToBooleanArray(repeatDays),mute);
+			Mute obj = new Mute(id,startHour,startMinute,endHour,endMinute
+					,stringToBooleanArray(repeatDays),mute);
 			mutes.add(obj);
 		}
-		
+		cursor.close();
 		return mutes;
 	}
 	
@@ -107,7 +125,11 @@ public class Mute implements Parcelable{
 		
 		return result;
 	}
-
+	
+	public String getId() {
+		return id;
+	}
+	
 	public int getStartHour() {
 		return startHour;
 	}
@@ -144,33 +166,23 @@ public class Mute implements Parcelable{
 		return repeatDays;
 	}
 	
-	/**
-	 * 设置服务重复的日期，并将之由原先的从周一开始转换为由周日开始
-	 * @param repeatDays
-	 */
 	public void setRepeatDays(boolean[] repeatDays) {
-		
-		this.repeat = false; 
-		StringBuilder sb = new StringBuilder();
-		
-		for(int i = 0 ; i < repeatDays.length; i++){
-			
-			this.repeatDays[(i+1)%7] = repeatDays[i];
-			
-			if(repeatDays[i]){
-				sb.append(DAYS[i].replace("星期","周") + " ");
-				this.repeat = true;
-			}
-		}
-		
-		this.repeatDaysDesc = sb.toString();
+		this.repeatDays = repeatDays;
 	}
 	
 	public boolean isRepeat() {
-		return repeat;
+		
+		for(boolean choice : repeatDays){
+			if(choice){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean isMute() {
+//		System.out.println("ismute() : " + mute + "         ");
 		return mute;
 	}
 
@@ -178,15 +190,17 @@ public class Mute implements Parcelable{
 		this.mute = mute;
 	}
 	
+	/**
+	 * 将服务的日期的选择转换为一个String数组表示，以，分割。方便以后数据库的存储
+	 * @return
+	 */
 	public String getRepeatDaysString(){
 		
 		StringBuilder sb = new StringBuilder();
 		
 		for(int i = 0; i < repeatDays.length; i++){
-			if(repeatDays[i]){
 				sb.append(String.valueOf(repeatDays[i]));
 				sb.append(",");
-			}
 		}
 		
 		return sb.toString();
@@ -197,10 +211,39 @@ public class Mute implements Parcelable{
 	 * @return
 	 */
 	public String getRepeatDaysDesc(){
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0 ; i < repeatDays.length; i++){
+			
+			if(repeatDays[i]){
+				sb.append(DAYS[i].replace("星期","周") + " ");
+			}
+		}
 	
-		return repeatDaysDesc;
+		return sb.toString();
 	}
 	
+	public boolean checkTimeFormat(){
+		if(startHour < endHour || (startHour == endHour && startMinute < endMinute)){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public String getStartTime(){
+		return startHour + ":" + startMinute;
+	}
+	
+	public String getEndTime(){
+		return endHour + ":" + endMinute;
+	}
+	
+	public boolean isMuteDay(int day){
+		System.out.println("today is :" + day);
+		return repeatDays[((day-2)+7)%7];
+	}
 	
 	@Override
 	public int describeContents() {
@@ -209,6 +252,7 @@ public class Mute implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(id);
 		dest.writeInt(startHour);
 		dest.writeInt(startMinute);
 		dest.writeInt(endHour);
@@ -217,26 +261,13 @@ public class Mute implements Parcelable{
 		dest.writeBooleanArray(new boolean[]{mute});
 	}
 	
-	/**
-	 * 使之返回符合SQLite存储规范的参数列表
-	 * @return
-	 */
-	public String[] getParamsString(){
-		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append(String.valueOf(startHour));
-		sb.append(",");
-		sb.append(String.valueOf(startMinute));
-		sb.append(",");
-		sb.append(String.valueOf(endHour));
-		sb.append(",");
-		sb.append(String.valueOf(endMinute));
-		sb.append(",");
-		sb.append(getRepeatDaysString());
-		sb.append(",");
-		sb.append(String.valueOf(mute));
-		
-		return sb.toString().split(",");
+	@Override
+	public Mute clone(){
+		try {
+			return (Mute) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

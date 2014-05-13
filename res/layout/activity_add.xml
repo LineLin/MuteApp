@@ -100,7 +100,7 @@
 	  	    android:layout_height="50dp"
 	  	    android:orientation="horizontal">
 	  	    	  	    
-	        <TextView android:text="@string/mute"
+	        <TextView android:text="@string/type"
 	            android:layout_height="fill_parent"
 	            android:layout_width="wrap_content"
 	            android:layout_marginLeft="10dp"

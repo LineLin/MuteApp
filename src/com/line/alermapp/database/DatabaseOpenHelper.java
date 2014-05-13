@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper{
 	
 	private final String sql = "create table mute ("
-			+ "_id varchar(32) primary key autoincrement,"
+			+ "id varchar(32) primary key unique,"
 			+ "mute varchar(32),"
 			+ "start_hour integer,"
 			+ "start_minute integer,"
@@ -22,8 +22,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		super(context, name, factory, version);
 	}
 	
-	public DatabaseOpenHelper(Context context){
-		this(context,"alerm.db3",null,1);
+	public DatabaseOpenHelper(Context context,int version){
+		this(context,"alerm.db3",null,version);
 	}
 
 	@Override

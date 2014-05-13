@@ -1,7 +1,6 @@
 package com.line.alermapp.activity;
-import java.util.ArrayList;
+
 import java.util.Calendar;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,8 +15,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.line.alermapp.R;
+import com.line.alermapp.database.Mute;
 
 public class MuteActivity extends Activity{
 	
@@ -31,7 +33,7 @@ public class MuteActivity extends Activity{
 	
 	private View cancerBtn;
 	
-	private View toggleBtn;
+	private ToggleButton toggleBtn;
 	
 	private int startHour;
 	
@@ -53,22 +55,37 @@ public class MuteActivity extends Activity{
 		setContentView(R.layout.activity_add);
 		
 		//设置默认值
-		startHour = endHour = startMinute = endMinute = -1;
-		
-		mute = false;
-		daysChoice = new boolean[]{false,false,false,false,false,false,false};
 		startTime = (TextView) findViewById(R.id.nowTime);
 		endTime = (TextView) findViewById(R.id.defaultEndTime);
 		repeatTip = (TextView) findViewById(R.id.repeatTip);
 		saveBtn = findViewById(R.id.btnSave);
 		cancerBtn = findViewById(R.id.btnCancer);
-		toggleBtn = findViewById(R.id.toggle);
+		toggleBtn = (ToggleButton)findViewById(R.id.toggle);
 		calendar = Calendar.getInstance();
 		
-		String nowTime = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
-		startTime.setText(nowTime);
-		endTime.setText(nowTime);
-		repeatTip.setText("一律不");
+		final Mute updateObject = getIntent().getParcelableExtra("mute");
+		
+		// 如果是修改服务的话，先重置好各变量的值
+		if(updateObject != null){
+			startTime.setText(updateObject.getStartTime());
+			endTime.setText(updateObject.getEndTime());
+			repeatTip.setText(updateObject.getRepeatDaysDesc());
+			startHour = updateObject.getStartHour();
+			endHour = updateObject.getEndHour();
+			startMinute = updateObject.getStartMinute();
+			endMinute = updateObject.getEndMinute();
+			daysChoice = updateObject.getRepeatDays();
+			mute = updateObject.isMute();
+			toggleBtn.setChecked(mute);
+		}else{
+			startHour = endHour = startMinute = endMinute = -1;
+			mute = false;
+			daysChoice = new boolean[]{false,false,false,false,false,false,false};
+			String nowTime = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+			startTime.setText(nowTime);
+			endTime.setText(nowTime);
+			repeatTip.setText("一律不");
+		}
 		
 		LinearLayout startTimeLayout = (LinearLayout) findViewById(R.id.startTime);
 		startTimeLayout.setOnClickListener(new OnClickListener(){
@@ -105,21 +122,20 @@ public class MuteActivity extends Activity{
 		LinearLayout repeatLayout = (LinearLayout) findViewById(R.id.repeat);
 		repeatLayout.setOnClickListener(new OnClickListener(){
 			
-			private String[] days = new String[]{"星期一","星期二","星期三","星期四","星期五","星期六","星期日"}; 
-			private List<Integer> daysList = new ArrayList<Integer>();
+			private String[] days = Mute.getDays();
 			
 			@Override
 			public void onClick(View view){
 				new AlertDialog.Builder(MuteActivity.this)
 				.setTitle("重复")
-				.setMultiChoiceItems(days, daysChoice,new OnMultiChoiceClickListener(){
+				.setMultiChoiceItems(days,daysChoice,new OnMultiChoiceClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int which,
 							boolean isChecked) {
 							daysChoice[which] = isChecked;
 					}
 				})
-				.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+				.setNegativeButton("确认",new DialogInterface.OnClickListener() {
 					
 					
 					@Override
@@ -128,7 +144,6 @@ public class MuteActivity extends Activity{
 						int choiceNum = 0;
 						for(int i = 0; i<daysChoice.length;i++){
 							if(daysChoice[i]){
-								daysList.add((i+1)%7);
 								choiceNum++;
 								result += "周" + days[i].charAt(days[i].length()-1) + " ";
 							}
@@ -139,7 +154,7 @@ public class MuteActivity extends Activity{
 						repeatTip.setText(result);
 					}
 				})
-				.setNegativeButton("取消",null)
+				.setPositiveButton("取消",null)
 				.show();
 			}
 		});
@@ -155,17 +170,39 @@ public class MuteActivity extends Activity{
 		saveBtn.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View view){
-				System.out.println("保存设置-------");
-				Intent intent = MuteActivity.this.getIntent();
-				intent.putExtra("startHour",startHour);
-				intent.putExtra("endHour",endHour);
-				intent.putExtra("startMinute",startMinute);
-				intent.putExtra("endMinute",endMinute);
-				intent.putExtra("repeatDays",repeatTip.getText().toString());
-				intent.putExtra("repeatDaysChoice",daysChoice);
-				intent.putExtra("mute",mute);
-				setResult(0,intent);
-				MuteActivity.this.finish();
+//				System.out.println("保存设置-------");
+//				Intent intent = MuteActivity.this.getIntent();
+//				intent.putExtra("startHour",startHour);
+//				intent.putExtra("endHour",endHour);
+//				intent.putExtra("startMinute",startMinute);
+//				intent.putExtra("endMinute",endMinute);
+//				intent.putExtra("repeatDays",repeatTip.getText().toString());
+//				intent.putExtra("repeatDaysChoice",daysChoice);
+//				intent.putExtra("mute",mute);
+				if(startHour < endHour || (startHour == endHour && startMinute < endMinute)){
+					if(updateObject == null){
+						Mute obj = new Mute(startHour,startMinute,endHour,endMinute,
+								daysChoice,mute);
+						System.out.println("保存设置-------");
+						Intent intent = MuteActivity.this.getIntent();
+						intent.putExtra("mute",obj);
+						setResult(MainActivity.OK_RESULT_CODE,intent);
+						MuteActivity.this.finish();
+					}else{
+						System.out.println("->>>helo");
+						updateObject.setStartHour(startHour);
+						updateObject.setEndHour(endHour);
+						updateObject.setEndMinute(endMinute);
+						updateObject.setStartMinute(startMinute);
+						updateObject.setRepeatDays(daysChoice);
+						updateObject.setMute(mute);
+						setResult(MainActivity.OK_RESULT_CODE,MuteActivity.this.getIntent());
+						MuteActivity.this.finish();
+					}
+				}else{
+					Toast.makeText(MuteActivity.this,"选择的时间段错误", 
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		
@@ -180,9 +217,10 @@ public class MuteActivity extends Activity{
 	}
 	
 	@Override
-	public void finish(){
-		setResult(0,getIntent());
-		super.finish();
-	}
+    public void onBackPressed() {
+		System.out.println("dsasd");
+        setResult(MainActivity.FAIL_RESULT_CODE,getIntent());
+        super.onBackPressed();
+    }
 
 }
