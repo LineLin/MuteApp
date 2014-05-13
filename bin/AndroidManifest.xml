@@ -33,7 +33,10 @@
         
         <service android:name="com.line.alermapp.service.MuteManagerService">
             <intent-filter>
-				<action android:name="com.line.alermapp.MUTE_MANAGER"/>                
+				<action android:name="com.line.alermapp.ADD_MUTE_MANAGER"/>                
+            </intent-filter>
+            <intent-filter>
+				<action android:name="com.line.alermapp.RESUME_MUTE_MANAGER"/>                
             </intent-filter>
         </service>
         

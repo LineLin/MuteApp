@@ -1,9 +1,7 @@
 package com.line.alermapp.service;
 
 import java.util.Calendar;
-import java.util.List;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -11,19 +9,11 @@ import android.os.IBinder;
 
 import com.line.alermapp.database.Mute;
 
-public class MuteService extends IntentService{
+public class MuteService extends Service{
 
 	private AudioManager audioManager;
 	
 	private Calendar calendar;
-	
-	public MuteService(){
-		this("MuteService");
-	}
-	
-	public MuteService(String name) {
-		super(name);
-	}
 	
 	@Override
 	public IBinder onBind(Intent intent){
@@ -38,7 +28,7 @@ public class MuteService extends IntentService{
 	}
 	
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	public int onStartCommand(Intent intent,int arg2,int flag) {
 		
 		
 //		boolean mute = intent.getBooleanExtra("mute",false);
@@ -47,7 +37,22 @@ public class MuteService extends IntentService{
 //		int nowDayIndex = ((calendar.get(Calendar.DAY_OF_WEEK)-1) + 7) % 7 ;
 		
 		Mute mute = intent.getParcelableExtra("mute");
-		setMuteTimerTask(mute);
+		if(!mute.isRepeat() || mute.isMuteDay(calendar.get(Calendar.DAY_OF_WEEK))){	
+			if(mute.isMute()){
+				System.out.println(mute.hashCode());
+				System.out.println("调整音量为0");
+				audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+//				audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,20,
+//						AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+			}else{
+				System.out.println(mute.hashCode());
+				System.out.println("调整音量为100");
+				audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+//				audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+//						audioManager.getStreamMaxVolume(AudioManager.STREAM_RING),
+//						AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+			}
+		}
 //		if(!repeat || repeatDaysChoice[nowDayIndex]){
 //		if( !mute.isRepeat() || mute.isMuteDay(calendar.get(Calendar.DAY_OF_WEEK))){	
 //			if(mute.isMute()){
@@ -65,31 +70,8 @@ public class MuteService extends IntentService{
 ////						AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
 //			}
 //		}
+		//尽量完成这次的intent请求，即时被中断
+		return Service.START_REDELIVER_INTENT;
 	}
-	
-	public void setMuteTimerTask(Mute mute){
-		System.out.println("被调度了");
-		if( !mute.isRepeat() || mute.isMuteDay(calendar.get(Calendar.DAY_OF_WEEK))){	
-			if(mute.isMute()){
-				System.out.println(mute.hashCode());
-				System.out.println("调整音量为0");
-				audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-//				audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,20,
-//						AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-			}else{
-				System.out.println(mute.hashCode());
-				System.out.println("调整音量为100");
-				audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-//				audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-//						audioManager.getStreamMaxVolume(AudioManager.STREAM_RING),
-//						AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
-			}
-		}
-	}
-	
-	public void setMuteTimerTask(List<Mute> mutes){
-		for(Mute m : mutes){
-			setMuteTimerTask(m);
-		}
-	}
+
 }

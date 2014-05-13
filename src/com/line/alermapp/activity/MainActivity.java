@@ -145,15 +145,13 @@ public class MainActivity extends Activity implements OnItemLongClickListener
 				Bundle bundle = intent.getExtras();
 				
 				Intent muteServiceIntent = new Intent();
-				muteServiceIntent.setAction("com.line.alermapp.MUTE_MANAGER");
+				muteServiceIntent.setAction("com.line.alermapp.ADD_MUTE_MANAGER");
 				muteServiceIntent.putExtras(bundle);
 				startService(muteServiceIntent);
 			}
 			break;
 		case MainActivity.UPDATE_REQUEST_CODE:
-			System.out.println("----------进来了！-------------");
 			if(resultCode == OK_RESULT_CODE){
-				System.out.println("----------a进来了！-------------");
 				Timer timer = MuteManagerService.timers.get(mute.getId());
 				if(timer !=  null){
 					timer.cancel();
@@ -164,7 +162,7 @@ public class MainActivity extends Activity implements OnItemLongClickListener
 				Bundle bundle = intent.getExtras();
 				
 				Intent muteServiceIntent = new Intent();
-				muteServiceIntent.setAction("com.line.alermapp.MUTE_MANAGER");
+				muteServiceIntent.setAction("com.line.alermapp.ADD_MUTE_MANAGER");
 				muteServiceIntent.putExtras(bundle);
 				startService(muteServiceIntent);
 			}

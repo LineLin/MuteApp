@@ -2,6 +2,7 @@ package com.line.alermapp.service;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,7 +11,9 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
+import com.line.alermapp.database.DatabaseOpenHelper;
 import com.line.alermapp.database.Mute;
+import com.line.alermapp.database.MuteDao;
 
 public class MuteManagerService extends IntentService{
 	
@@ -19,6 +22,10 @@ public class MuteManagerService extends IntentService{
 	public static Map<String,Timer> timers;
 	
 	private final long period = 1000 * 3600 * 24l;
+	
+	private MuteDao muteDao;
+	
+	private DatabaseOpenHelper dbHelper;
 	
 	static{
 		timers = new HashMap<String,Timer>();
@@ -31,9 +38,18 @@ public class MuteManagerService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
-		Timer timer = new Timer();
-		Mute mute = intent.getParcelableExtra("mute");
-		timers.put(mute.getId(),timer);
+		if(intent.getAction().equals("com.line.alermapp.ADD_MUTE_MANAGER")){
+			Mute mute = intent.getParcelableExtra("mute");
+			setTimerTask(mute);
+			return ;
+		}
+		
+		if(intent.getAction().equals("com.line.alermapp.RESUME_MUTE_MANAGER")){
+			List<Mute> mutes = intent.getParcelableExtra("mutes");
+			setTimerTask(mutes);
+			return ;
+		}
+		
 //		boolean[] repeatDaysChoice = intent.getBooleanArrayExtra("repeatDaysChoice");
 //		int startHour = intent.getIntExtra("startHour",-1);
 //		int endHour = intent.getIntExtra("endHour",-1);
@@ -49,6 +65,15 @@ public class MuteManagerService extends IntentService{
 //			}
 //		}
 //		
+		
+		
+	}
+	
+	private void setTimerTask(Mute mute){
+		
+		Timer timer = new Timer();
+		timers.put(mute.getId(),timer);
+		
 		Intent muteService = new Intent(this,MuteService.class);
 //		muteService.putExtra("repeatDaysChoice",repeatDaysChoice);
 //		muteService.putExtra("mute",mute);
@@ -66,7 +91,6 @@ public class MuteManagerService extends IntentService{
 		//设置定时任务开启的延迟时间
 		long delay = calendar.getTimeInMillis() - System.currentTimeMillis();
 		delay = delay >= 0 ? delay : 0;
-		System.out.println("start.delay-->" + delay);
 		
 		if(mute.isRepeat()){
 			timer.schedule(new MyTimerTask(muteService,this),delay,period);
@@ -95,7 +119,6 @@ public class MuteManagerService extends IntentService{
 			//设置定时任务关闭的延迟时间
 			delay = calendar.getTimeInMillis() - System.currentTimeMillis();
 			delay = delay >= 0 ? delay : 0;
-			System.out.println("end.delay-->" + delay);
 			
 			if(mute.isRepeat()){
 				timer.schedule(new MyTimerTask(muteService,this),delay,period);
@@ -105,11 +128,27 @@ public class MuteManagerService extends IntentService{
 		}
 		
 	}
+	
+	private void setTimerTask(List<Mute> mutes){
+		for(Mute mute : mutes){
+			setTimerTask(mute);
+		}
+		
+	}
 
 	@Override
 	public void onCreate(){
 		super.onCreate();
 		calendar = Calendar.getInstance();
+		dbHelper = new DatabaseOpenHelper(this,1);
+		muteDao = new MuteDao(dbHelper.getWritableDatabase());
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		muteDao.closeDataBase();
+		dbHelper.close();
 	}
 	
 	class MyTimerTask extends TimerTask{
@@ -125,7 +164,6 @@ public class MuteManagerService extends IntentService{
 		
 		@Override
 		public void run(){
-			System.out.println("开始广播-------");
 			context.startService(intent);
 		}
 	}

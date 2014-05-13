@@ -12,27 +12,26 @@
 	    android:layout_marginTop="5dp" 
 	    android:textOff="@string/off"
         android:textOn="@string/on"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/white"/>
 	
 	<LinearLayout android:layout_width="fill_parent"
- 	android:layout_height="wrap_content"
-	android:orientation="vertical">
-	   <TextView android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:height="35dp"
-	       android:paddingLeft="10dp"
-	       android:gravity="center_vertical"
-	       android:id="@+id/desc"
-	       android:text="s"/>
-	   <TextView android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:gravity="center_vertical"
-	       android:height="15dp"
-	       android:paddingLeft="10dp"
-	       android:textSize="12sp"
-	       android:textColor="@color/white_7"
-	       android:id="@+id/tip"
-	       android:text="t"/>
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginTop="10dp"
+		android:orientation="vertical">
+		   <TextView android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:height="25dp"
+		       android:paddingLeft="10dp"
+		       android:gravity="center_vertical"
+		       android:id="@+id/desc"
+		       android:text="@string/start_time"/>
+		   <TextView android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:gravity="center_vertical"
+		       android:height="15dp"
+		       android:paddingLeft="10dp"
+		       android:textSize="12sp"
+		       android:textColor="@color/white_7"
+		       android:id="@+id/tip"/>
    </LinearLayout>
 </LinearLayout>
