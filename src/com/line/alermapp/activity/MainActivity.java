@@ -26,8 +26,8 @@ import com.line.alermapp.database.Mute;
 import com.line.alermapp.database.MuteDao;
 import com.line.alermapp.service.MuteManagerService;
 
-public class MainActivity extends Activity implements OnItemLongClickListener
-			,OnItemClickListener{
+public class MainActivity extends Activity implements OnItemLongClickListener,
+		OnItemClickListener{
 	
 	private ListView listView;
 	
@@ -167,7 +167,6 @@ public class MainActivity extends Activity implements OnItemLongClickListener
 				startService(muteServiceIntent);
 			}
 			break;
-			
 		}
 		
 	}

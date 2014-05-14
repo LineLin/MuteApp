@@ -109,17 +109,19 @@
 	            android:gravity="center_vertical"/>
 			<RelativeLayout android:layout_width="fill_parent"
 			    android:layout_height="fill_parent">
-		        <ToggleButton android:id="@+id/toggle"
+
+		        <ToggleButton
+		            android:id="@+id/toggle"
 		            android:layout_width="wrap_content"
-		            android:layout_height="35dp"
-		            android:textOff="@string/off"
-		            android:textOn="@string/on"
-		            android:textColor="@color/white"
-		            android:layout_alignParentRight="true"
+		            android:layout_height="40dp"
 		            android:layout_alignParentBottom="true"
-		            android:layout_marginBottom="10dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_marginBottom="5dp"
 		            android:gravity="center_vertical|center_horizontal"
-		            />
+		            android:textColor="@color/white"
+		            android:textOff="@string/off"
+		            android:textOn="@string/on" />
+
 			</RelativeLayout>
 	  	</LinearLayout>
 		    
@@ -135,15 +137,17 @@
 
         <Button
             android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:height="30dp"
             android:text="@string/btn_save"
             android:textColor="@color/white_5" />
 
         <Button
             android:id="@+id/btnCancer"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:height="30dp"
             android:text="@string/btn_cancer"

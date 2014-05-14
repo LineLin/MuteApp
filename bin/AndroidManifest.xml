@@ -9,7 +9,8 @@
         android:targetSdkVersion="19" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />   
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />  
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />   
 
     <application
         android:allowBackup="true"
@@ -41,6 +42,14 @@
         </service>
         
         <service android:name="com.line.alermapp.service.MuteService"/>
+        
+        <receiver android:name="com.line.alermapp.broadcastreceiver.SysBootBrocastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        		<category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+            
     </application>
 
 </manifest>

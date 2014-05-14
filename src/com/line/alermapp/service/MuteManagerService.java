@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.line.alermapp.database.DatabaseOpenHelper;
 import com.line.alermapp.database.Mute;
@@ -38,14 +39,16 @@ public class MuteManagerService extends IntentService{
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
+		System.out.println("test");
+		
 		if(intent.getAction().equals("com.line.alermapp.ADD_MUTE_MANAGER")){
 			Mute mute = intent.getParcelableExtra("mute");
 			setTimerTask(mute);
 			return ;
 		}
-		
+		System.out.println("test2");
 		if(intent.getAction().equals("com.line.alermapp.RESUME_MUTE_MANAGER")){
-			List<Mute> mutes = intent.getParcelableExtra("mutes");
+			List<Mute> mutes = muteDao.getAllService();
 			setTimerTask(mutes);
 			return ;
 		}
@@ -130,6 +133,7 @@ public class MuteManagerService extends IntentService{
 	}
 	
 	private void setTimerTask(List<Mute> mutes){
+		
 		for(Mute mute : mutes){
 			setTimerTask(mute);
 		}
