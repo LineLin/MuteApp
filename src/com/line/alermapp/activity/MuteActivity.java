@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.line.alermapp.R;
 import com.line.alermapp.database.Mute;
+import com.line.alermapp.util.FormatUtils;
 
 public class MuteActivity extends Activity{
 	
@@ -80,7 +81,8 @@ public class MuteActivity extends Activity{
 			startHour = endHour = startMinute = endMinute = -1;
 			mute = false;
 			daysChoice = new boolean[]{false,false,false,false,false,false,false};
-			String nowTime = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+			String nowTime = FormatUtils.formatInt(calendar.get(Calendar.HOUR_OF_DAY), "00") + ":" 
+								+ FormatUtils.formatInt(calendar.get(Calendar.MINUTE), "00");
 			startTime.setText(nowTime);
 			endTime.setText(nowTime);
 			repeatTip.setText("一律不");
@@ -93,9 +95,9 @@ public class MuteActivity extends Activity{
 				new TimePickerDialog(MuteActivity.this,new TimePickerDialog.OnTimeSetListener(){
 					@Override
 					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-						MuteActivity.this.startHour = hourOfDay;
-						MuteActivity.this.startMinute = minute;
-						startTime.setText(startHour + ":" + startMinute);
+						startHour = hourOfDay;
+						startMinute = minute;
+						startTime.setText(FormatUtils.formatInt(startHour,"00") + ":" + FormatUtils.formatInt(startMinute,"00"));
 					}
 				},calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true)
 				.show();
@@ -109,9 +111,9 @@ public class MuteActivity extends Activity{
 				new TimePickerDialog(MuteActivity.this,new TimePickerDialog.OnTimeSetListener(){
 					@Override
 					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-						MuteActivity.this.endHour = hourOfDay;
-						MuteActivity.this.endMinute = minute;
-						endTime.setText(endHour + ":" + endMinute);
+						endHour = hourOfDay;
+						endMinute = minute;
+						endTime.setText(FormatUtils.formatInt(endHour,"00") + ":" + FormatUtils.formatInt(endMinute,"00"));
 					}
 				},calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true)
 				.show();

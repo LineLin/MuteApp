@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.line.alermapp.util.FormatUtils;
+
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -214,14 +216,17 @@ public class Mute implements Parcelable,Cloneable{
 		
 		StringBuilder sb = new StringBuilder();
 		
+		int cnt = 0;
+		
 		for(int i = 0 ; i < repeatDays.length; i++){
 			
 			if(repeatDays[i]){
+				cnt++;
 				sb.append(DAYS[i].replace("星期","周") + " ");
 			}
 		}
 	
-		return sb.toString();
+		return cnt == 7 ? "每天" : cnt == 0 ?  "不重复" :sb.toString();
 	}
 	
 	public boolean checkTimeFormat(){
@@ -233,11 +238,11 @@ public class Mute implements Parcelable,Cloneable{
 	
 	
 	public String getStartTime(){
-		return startHour + ":" + startMinute;
+		return FormatUtils.formatInt(startHour, "00") + ":" + FormatUtils.formatInt(startMinute, "00");
 	}
 	
 	public String getEndTime(){
-		return endHour + ":" + endMinute;
+		return FormatUtils.formatInt(endHour, "00") + ":" + FormatUtils.formatInt(endMinute, "00");
 	}
 	
 	public boolean isMuteDay(int day){

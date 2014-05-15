@@ -26,6 +26,7 @@
 	  	        android:gravity="center_vertical"
 	  	        android:height="35dp"
 	  	        android:text="@string/start_time"
+	  	        android:textColor="@color/white_3"
 	  	        android:paddingLeft="10dp"/>
 
 	  	    <TextView android:id="@+id/nowTime"
@@ -51,6 +52,7 @@
 	  	    <TextView android:layout_width="fill_parent"
 	  	        android:layout_height="wrap_content"
 	  	        android:text="@string/end_time"
+	  	        android:textColor="@color/white_3"
 	  	        android:height="35dp"
 	  	        android:gravity="center_vertical"
 	  	        android:paddingLeft="10dp"/>
@@ -78,6 +80,7 @@
 	  	    <TextView android:layout_width="fill_parent"
 	  	        android:layout_height="wrap_content"
 	  	        android:text="@string/day_repeat"
+	  	        android:textColor="@color/white_3"
 	  	        android:height="35dp"
 	  	        android:paddingLeft="10dp"
 	  	        android:gravity="center_vertical"/>
@@ -103,22 +106,22 @@
 	        <TextView android:text="@string/type"
 	            android:layout_height="fill_parent"
 	            android:layout_width="wrap_content"
-	            android:layout_marginLeft="10dp"
-	            android:layout_marginRight="50dp"
+	            android:paddingLeft="10dp"
 	            android:layout_gravity="left"
-	            android:gravity="center_vertical"/>
+	            android:gravity="center_vertical"
+	            android:textColor="@color/white_3"/>
 			<RelativeLayout android:layout_width="fill_parent"
 			    android:layout_height="fill_parent">
 
 		        <ToggleButton
 		            android:id="@+id/toggle"
 		            android:layout_width="wrap_content"
-		            android:layout_height="40dp"
+		            android:layout_height="wrap_content"
 		            android:layout_alignParentBottom="true"
 		            android:layout_alignParentRight="true"
-		            android:layout_marginBottom="5dp"
+		            android:layout_marginTop="5dp"
 		            android:gravity="center_vertical|center_horizontal"
-		            android:textColor="@color/white"
+		            android:textColor="@color/white_3"
 		            android:textOff="@string/off"
 		            android:textOn="@string/on" />
 
@@ -140,18 +143,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:height="30dp"
             android:text="@string/btn_save"
-            android:textColor="@color/white_5" />
+            android:textColor="@color/white_3" />
 
         <Button
             android:id="@+id/btnCancer"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:height="30dp"
             android:text="@string/btn_cancer"
-            android:textColor="@color/white_5" />
+            android:textColor="@color/white_3" />
     </LinearLayout>
 
 </LinearLayout>

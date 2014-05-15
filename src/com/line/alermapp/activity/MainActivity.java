@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 
 import com.line.alermapp.R;
@@ -105,7 +106,10 @@ public class MainActivity extends Activity implements OnItemLongClickListener,
 								MuteManagerService.timers.remove(muteId);
 							}
 						}
-				}).show();
+				})
+				.setNegativeButton("取消",null)
+				.show();
+		
 		return false;
 	}
 	
@@ -178,7 +182,7 @@ public class MainActivity extends Activity implements OnItemLongClickListener,
 //		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id",mute.getId());
-		map.put("desc",mute.getStartTime() + "  --->  " + mute.getEndTime());
+		map.put("desc",mute.getStartTime() + "  -----  " + mute.getEndTime());
 		map.put("tip",mute.getRepeatDaysDesc());
 		map.put("mute",mute.isMute());
 		data.add(map);
@@ -200,7 +204,7 @@ public class MainActivity extends Activity implements OnItemLongClickListener,
 		}
 		
 		Map<String,Object> map = data.get(position);
-		map.put("desc",mute.getStartTime() + "  --->  " + mute.getEndTime());
+		map.put("desc",mute.getStartTime() + "  -----  " + mute.getEndTime());
 		map.put("tip",mute.getRepeatDaysDesc());
 		map.put("mute",mute.isMute());
 		adapter.notifyDataSetChanged();
@@ -216,7 +220,7 @@ public class MainActivity extends Activity implements OnItemLongClickListener,
 		for(Mute mute : mutes){
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("id",mute.getId());
-			map.put("desc",mute.getStartTime() + "  --->  " + mute.getEndTime());
+			map.put("desc",mute.getStartTime() + "  -----  " + mute.getEndTime());
 			map.put("tip",mute.getRepeatDaysDesc());
 			map.put("mute",mute.isMute());
 			list.add(map);
