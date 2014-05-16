@@ -374,6 +374,9 @@ int string start_time 0x7f0a0010
 int string type 0x7f0a0015
 int style AppBaseTheme 0x7f0b0083
 int style AppTheme 0x7f0b0084
+int style ItemBase 0x7f0b0085
+int style ItemDesc 0x7f0b0086
+int style ItemTip 0x7f0b0087
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0b0063
 int style TextAppearance_AppCompat_Base_SearchResult 0x7f0b006d
 int style TextAppearance_AppCompat_Base_SearchResult_Subtitle 0x7f0b006f

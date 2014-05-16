@@ -15,28 +15,16 @@
         
 	  	<LinearLayout
 	  	    android:id="@+id/startTime"
-	  	    android:layout_width="fill_parent"
-	  	    android:layout_height="wrap_content"
-	  	    android:orientation="vertical"
-	  	    android:gravity="center_vertical">
+	  	    style="@style/ItemBase"
+	  	    android:orientation="vertical">
 
 	  	    <TextView
-	  	        android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
-	  	        android:gravity="center_vertical"
-	  	        android:height="35dp"
-	  	        android:text="@string/start_time"
-	  	        android:textColor="@color/white_3"
-	  	        android:paddingLeft="10dp"/>
+	  	        style="@style/ItemDesc"
+	  	        android:text="@string/start_time"/>
 
 	  	    <TextView android:id="@+id/nowTime"
-	  	        android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
-	  	        android:gravity="center_vertical"
-	  	        android:height="15dp"
-	  	        android:paddingLeft="10dp"
-	  	        android:textSize="12sp"
-	  	        android:textColor="@color/white_7"/>
+	  	        style="@style/ItemTip"/>
+	  	    
 	  	</LinearLayout>
 		
 	  	<!-- 分割线 -->
@@ -46,24 +34,14 @@
 	  	    android:layout_height="wrap_content"/>
 	  	
 	  	<LinearLayout android:id="@+id/endTime"
-	  	    android:layout_width="fill_parent"
-	  	    android:layout_height="wrap_content"
+	  	    style="@style/ItemBase"
 	  	    android:orientation="vertical">
-	  	    <TextView android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
+	  	    <TextView
+	  	        style="@style/ItemDesc" 
 	  	        android:text="@string/end_time"
-	  	        android:textColor="@color/white_3"
-	  	        android:height="35dp"
-	  	        android:gravity="center_vertical"
-	  	        android:paddingLeft="10dp"/>
+	  	        />
 	  	    <TextView android:id="@+id/defaultEndTime"
-	  	        android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
-	  	        android:gravity="center_vertical"
-	  	        android:height="15dp"
-	  	        android:paddingLeft="10dp"
-	  	        android:textSize="12sp"
-	  	        android:textColor="@color/white_7"/>
+	  	        style="@style/ItemTip"/>
 	  	</LinearLayout>
 	  	
 	  	<!-- 分割线 -->
@@ -73,25 +51,15 @@
 	  	    android:layout_height="wrap_content"/>
 	  	
 		<LinearLayout android:id="@+id/repeat"
-	  	    android:layout_width="fill_parent"
-	  	    android:layout_height="wrap_content"
+	  	    style="@style/ItemBase"
 	  	    android:orientation="vertical">
 	  	    
-	  	    <TextView android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
-	  	        android:text="@string/day_repeat"
-	  	        android:textColor="@color/white_3"
-	  	        android:height="35dp"
-	  	        android:paddingLeft="10dp"
-	  	        android:gravity="center_vertical"/>
+	  	    <TextView style="@style/ItemDesc"
+	  	        android:text="@string/day_repeat"/>
+	  	    
 	  	    <TextView android:id="@+id/repeatTip"
-	  	        android:layout_width="fill_parent"
-	  	        android:layout_height="wrap_content"
-	  	        android:gravity="center_vertical"
-	  	        android:height="15dp"
-	  	        android:paddingLeft="10dp"
-	  	        android:textSize="12sp"
-	  	        android:textColor="@color/white_7"/>
+	  	        style="@style/ItemTip"/>
+	  	    
 	  	</LinearLayout>
 	  	<!-- 分割线 -->
 	  	<TextView android:background="@color/cream"
@@ -110,6 +78,7 @@
 	            android:layout_gravity="left"
 	            android:gravity="center_vertical"
 	            android:textColor="@color/white_3"/>
+	        
 			<RelativeLayout android:layout_width="fill_parent"
 			    android:layout_height="fill_parent">
 
