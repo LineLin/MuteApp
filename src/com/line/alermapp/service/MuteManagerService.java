@@ -10,7 +10,6 @@ import java.util.TimerTask;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.line.alermapp.database.DatabaseOpenHelper;
 import com.line.alermapp.database.Mute;
@@ -22,7 +21,7 @@ public class MuteManagerService extends IntentService{
 	
 	public static Map<String,Timer> timers;
 	
-	private final long period = 1000 * 3600 * 24l;
+	private final long period = 1000 * 3600 * 24l; //重复周期
 	
 	private MuteDao muteDao;
 	
