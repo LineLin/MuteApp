@@ -95,7 +95,7 @@ public class MuteManagerService extends IntentService{
 		delay = delay >= 0 ? delay : 0;
 		
 		if(mute.isRepeat()){
-			timer.schedule(new MyTimerTask(muteService,this),delay,period);
+			timer.scheduleAtFixedRate(new MyTimerTask(muteService,this),delay,period);
 		}else{
 			timer.schedule(new MyTimerTask(muteService,this),delay);
 		}
@@ -123,7 +123,7 @@ public class MuteManagerService extends IntentService{
 			delay = delay >= 0 ? delay : 0;
 			
 			if(mute.isRepeat()){
-				timer.schedule(new MyTimerTask(muteService,this),delay,period);
+				timer.scheduleAtFixedRate(new MyTimerTask(muteService,this),delay,period);
 			}else{
 				timer.schedule(new MyTimerTask(muteService,this),delay);
 			}

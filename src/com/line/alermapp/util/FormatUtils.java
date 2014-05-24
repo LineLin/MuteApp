@@ -2,6 +2,7 @@ package com.line.alermapp.util;
 
 import java.text.DecimalFormat;
 
+
 public class FormatUtils {
 	
 	private static DecimalFormat format = new DecimalFormat();

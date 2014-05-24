@@ -1,6 +1,9 @@
 package com.line.alermapp.service;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Service;
 import android.content.Intent;
@@ -37,6 +40,17 @@ public class MuteService extends Service{
 //		int nowDayIndex = ((calendar.get(Calendar.DAY_OF_WEEK)-1) + 7) % 7 ;
 		
 		Mute mute = intent.getParcelableExtra("mute");
+		
+		try {
+			PrintWriter reader = new PrintWriter(openFileOutput("log.log",MODE_APPEND));
+			reader.println(mute.getStartTime() + "-->" + mute.getEndTime());
+			reader.println("重复" + mute.getRepeatDaysDesc());
+			reader.println("now : " + new Date());
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		if(!mute.isRepeat() || mute.isMuteDay(calendar.get(Calendar.DAY_OF_WEEK))){	
 			if(mute.isMute()){
 				System.out.println(mute.hashCode());
