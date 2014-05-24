@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,7 +21,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.line.alermapp.R;
 import com.line.alermapp.database.DatabaseOpenHelper;
 import com.line.alermapp.database.Mute;
 import com.line.alermapp.database.MuteDao;
